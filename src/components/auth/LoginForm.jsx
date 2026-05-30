@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { ApiError } from "@/lib/types";
+import { ApiError } from "@/lib/api/client";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import styles from "./LoginForm.module.css";
@@ -17,22 +17,20 @@ const schema = z.object({
   password: z.string().min(1, "Password is required."),
 });
 
-type FormData = z.infer<typeof schema>;
-
 export function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(schema) });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data) => {
     setServerError(null);
     try {
       await login(data);

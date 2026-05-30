@@ -1,14 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import type { OrganizationSummary } from "@/lib/types";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardBody } from "@/components/ui/Card";
 import styles from "./OrgCard.module.css";
-
-interface OrgCardProps {
-  org: OrganizationSummary;
-}
 
 const BuildingIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -18,7 +13,7 @@ const BuildingIcon = () => (
   </svg>
 );
 
-export function OrgCard({ org }: OrgCardProps) {
+export function OrgCard({ org }) {
   return (
     <Link href={`/dashboard/orgs/${org.slug}`} className={styles.link}>
       <Card hoverable className={styles.card}>

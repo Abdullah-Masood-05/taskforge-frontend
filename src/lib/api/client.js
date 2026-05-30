@@ -9,25 +9,22 @@
  *   variable when an org scope is active.
  * - On 401: attempts a single token refresh via /auth/token/refresh/, then retries.
  *   If refresh fails, clears auth state (forces re-login).
- * - Throws typed `ApiError` on all non-2xx responses.
+ * - Throws `ApiError` on all non-2xx responses.
  */
-import { ApiError, ApiErrorShape } from "@/lib/types";
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
-
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
 const API_PREFIX = `${API_BASE}/api/v1`;
 
 // Org slug context — set by useOrgContext, read by the client
-let _currentOrgSlug: string | null = null;
+let _currentOrgSlug = null;
 
-export function setCurrentOrgSlug(slug: string | null) {
+export function setCurrentOrgSlug(slug) {
   _currentOrgSlug = slug;
 }
 
 // ── Token store accessor ──────────────────────────────────────────────────────
 // We import lazily to avoid a circular dependency between client ↔ authStore.
-function getTokens(): { access: string | null; refresh: string | null } {
+function getTokens() {
   if (typeof window === "undefined") return { access: null, refresh: null };
   try {
     const raw = localStorage.getItem("taskforge_auth");
@@ -48,23 +45,29 @@ function clearAuthStorage() {
   }
 }
 
-// ── Core fetch wrapper ────────────────────────────────────────────────────────
+// ── API Error Class ───────────────────────────────────────────────────────────
+export class ApiError extends Error {
+  constructor(httpStatus, shape) {
+    super(shape.message);
+    this.name = "ApiError";
+    this.status = httpStatus;
+    this.code = shape.code;
+    this.errors = shape.errors;
+  }
 
-interface RequestOptions extends Omit<RequestInit, "body"> {
-  body?: unknown;
-  /** If true, skip Authorization header (for login/register). */
-  skipAuth?: boolean;
-  /** If true, this is a retry after token refresh — don't retry again. */
-  _isRetry?: boolean;
+  /** Returns the first field-level error message for a given field name. */
+  fieldError(field) {
+    const val = this.errors?.[field];
+    if (!val) return undefined;
+    return Array.isArray(val) ? val[0] : val;
+  }
 }
 
-async function request<T>(
-  path: string,
-  options: RequestOptions = {}
-): Promise<T> {
+// ── Core fetch wrapper ────────────────────────────────────────────────────────
+async function request(path, options = {}) {
   const { body, skipAuth = false, _isRetry = false, ...rest } = options;
 
-  const headers: Record<string, string> = {
+  const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
   };
@@ -84,7 +87,7 @@ async function request<T>(
 
   const res = await fetch(url, {
     ...rest,
-    headers: { ...headers, ...(rest.headers as Record<string, string> | undefined) },
+    headers: { ...headers, ...rest.headers },
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
@@ -110,7 +113,7 @@ async function request<T>(
             localStorage.setItem("taskforge_auth", JSON.stringify(parsed));
           }
           // Retry the original request once with the new access token
-          return request<T>(path, { ...options, _isRetry: true });
+          return request(path, { ...options, _isRetry: true });
         }
       } catch {
         // Refresh request itself failed — fall through to clear auth
@@ -127,10 +130,10 @@ async function request<T>(
   // ── Parse response ────────────────────────────────────────────────────────
   // 204 No Content — return null
   if (res.status === 204) {
-    return null as T;
+    return null;
   }
 
-  let json: unknown;
+  let json;
   try {
     json = await res.json();
   } catch {
@@ -142,27 +145,17 @@ async function request<T>(
   }
 
   if (!res.ok) {
-    throw new ApiError(res.status, json as ApiErrorShape);
+    throw new ApiError(res.status, json);
   }
 
-  return json as T;
+  return json;
 }
 
 // ── Exported HTTP helpers ─────────────────────────────────────────────────────
-
 export const apiClient = {
-  get: <T>(path: string, opts?: RequestOptions) =>
-    request<T>(path, { method: "GET", ...opts }),
-
-  post: <T>(path: string, body?: unknown, opts?: RequestOptions) =>
-    request<T>(path, { method: "POST", body, ...opts }),
-
-  patch: <T>(path: string, body?: unknown, opts?: RequestOptions) =>
-    request<T>(path, { method: "PATCH", body, ...opts }),
-
-  put: <T>(path: string, body?: unknown, opts?: RequestOptions) =>
-    request<T>(path, { method: "PUT", body, ...opts }),
-
-  del: <T>(path: string, opts?: RequestOptions) =>
-    request<T>(path, { method: "DELETE", ...opts }),
+  get: (path, opts) => request(path, { method: "GET", ...opts }),
+  post: (path, body, opts) => request(path, { method: "POST", body, ...opts }),
+  patch: (path, body, opts) => request(path, { method: "PATCH", body, ...opts }),
+  put: (path, body, opts) => request(path, { method: "PUT", body, ...opts }),
+  del: (path, opts) => request(path, { method: "DELETE", ...opts }),
 };

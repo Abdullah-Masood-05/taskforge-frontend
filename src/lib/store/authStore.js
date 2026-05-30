@@ -16,7 +16,6 @@
  */
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { TokenPair, User } from "@/lib/types";
 
 // ── Cookie helpers for middleware visibility ──────────────────────────────────
 function setAuthCookie() {
@@ -32,19 +31,7 @@ function clearAuthCookie() {
   }
 }
 
-interface AuthState {
-  user: User | null;
-  tokens: TokenPair | null;
-  isAuthenticated: boolean;
-
-  // Actions
-  setAuth: (user: User, tokens: TokenPair) => void;
-  setUser: (user: User) => void;
-  setTokens: (tokens: TokenPair) => void;
-  clearAuth: () => void;
-}
-
-export const useAuthStore = create<AuthState>()(
+export const useAuthStore = create(
   persist(
     (set) => ({
       user: null,

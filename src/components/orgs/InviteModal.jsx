@@ -8,7 +8,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { useInviteMember } from "@/lib/hooks/useOrgs";
-import { ApiError, type MemberRole } from "@/lib/types";
+import { ApiError } from "@/lib/api/client";
 import styles from "./InviteModal.module.css";
 
 const schema = z.object({
@@ -16,18 +16,10 @@ const schema = z.object({
   role: z.enum(["admin", "member", "viewer"]),
 });
 
-type FormData = z.infer<typeof schema>;
-
-interface InviteModalProps {
-  orgSlug: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function InviteModal({ orgSlug, isOpen, onClose }: InviteModalProps) {
+export function InviteModal({ orgSlug, isOpen, onClose }) {
   const invite = useInviteMember(orgSlug);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(null);
+  const [serverError, setServerError] = useState(null);
 
   const {
     register,
@@ -35,7 +27,7 @@ export function InviteModal({ orgSlug, isOpen, onClose }: InviteModalProps) {
     formState: { errors, isSubmitting },
     reset,
     setError,
-  } = useForm<FormData>({
+  } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { role: "member" },
   });
@@ -47,7 +39,7 @@ export function InviteModal({ orgSlug, isOpen, onClose }: InviteModalProps) {
     onClose();
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data) => {
     setServerError(null);
     setSuccess(null);
     try {

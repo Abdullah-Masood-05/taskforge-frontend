@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Create account",
   description: "Create your TaskForge account and start managing projects.",
 };

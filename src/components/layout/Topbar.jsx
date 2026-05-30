@@ -3,16 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/lib/hooks/useAuth";
 import styles from "./Topbar.module.css";
 
-interface TopbarProps {
-  title?: string;
-  actions?: React.ReactNode;
-}
-
-export function Topbar({ title, actions }: TopbarProps) {
+export function Topbar({ title, actions }) {
   const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
