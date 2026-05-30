@@ -1,5 +1,11 @@
 # taskforge-frontend
 
+[![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=0B1F26)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Bun](https://img.shields.io/badge/Bun-latest-000000?logo=bun&logoColor=white)](https://bun.sh)
+[![CSS Modules](https://img.shields.io/badge/CSS%20Modules-styled-1572B6?logo=css3&logoColor=white)](https://github.com/css-modules/css-modules)
+
 This is a [Next.js](https://nextjs.org) 15 (App Router) project providing the user-facing web interface for TaskForge.
 It uses TypeScript, a pure CSS custom design system, and connects to the TaskForge Django API.
 
