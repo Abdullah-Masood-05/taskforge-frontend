@@ -1,0 +1,74 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  border: 1px solid transparent;
+}
+
+/* ── Role variants ────────────────────────────────────────────────────────── */
+.admin {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--role-admin);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.member {
+  background: rgba(16, 185, 129, 0.10);
+  color: var(--role-member);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.viewer {
+  background: rgba(100, 116, 139, 0.10);
+  color: var(--role-viewer);
+  border-color: rgba(100, 116, 139, 0.2);
+}
+
+/* ── Plan variants ────────────────────────────────────────────────────────── */
+.free {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
+}
+
+.pro {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--brand-primary);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.business {
+  background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15));
+  color: var(--brand-secondary);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+/* ── Invitation status ────────────────────────────────────────────────────── */
+.pending {
+  background: rgba(245, 158, 11, 0.10);
+  color: var(--warning);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.accepted {
+  background: var(--success-light);
+  color: var(--success);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.expired {
+  background: var(--danger-light);
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.default {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}

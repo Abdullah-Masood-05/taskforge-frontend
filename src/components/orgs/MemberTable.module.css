@@ -1,0 +1,106 @@
+.wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-surface);
+}
+
+.th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.row {
+  transition: background var(--duration-fast) var(--ease-default);
+}
+
+.row:hover {
+  background: var(--bg-elevated);
+}
+
+.row:not(:last-child) {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.td {
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+
+/* ── Member cell ──────────────────────────────────────────────────────────── */
+.memberCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.memberName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.memberEmail {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.youBadge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  background: var(--brand-primary-light);
+  color: var(--brand-primary);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Role select ──────────────────────────────────────────────────────────── */
+.roleSelect {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  padding: 4px 10px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-default);
+}
+
+.roleSelect:focus {
+  border-color: var(--brand-primary);
+}
+
+/* ── Date ─────────────────────────────────────────────────────────────────── */
+.date {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* ── Remove button ────────────────────────────────────────────────────────── */
+.removeBtn {
+  color: var(--danger) !important;
+  font-size: 0.8125rem;
+}
+
+.removeBtn:hover {
+  background: var(--danger-light) !important;
+}

@@ -7,6 +7,9 @@
  * vs. the production-hardened approach of httpOnly cookies.
  * The localStorage key is namespaced to avoid collisions.
  *
+ * A lightweight non-sensitive cookie "taskforge_authenticated" is also set so
+ * Next.js Edge Middleware can check auth state without accessing localStorage.
+ *
  * Zustand owns WHO the user is.
  * TanStack Query owns WHAT data is on screen.
  * These two concerns never cross.
@@ -14,6 +17,20 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { TokenPair, User } from "@/lib/types";
+
+// ── Cookie helpers for middleware visibility ──────────────────────────────────
+function setAuthCookie() {
+  if (typeof document !== "undefined") {
+    document.cookie = "taskforge_authenticated=1; path=/; SameSite=Lax";
+  }
+}
+
+function clearAuthCookie() {
+  if (typeof document !== "undefined") {
+    document.cookie =
+      "taskforge_authenticated=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
+  }
+}
 
 interface AuthState {
   user: User | null;
@@ -34,15 +51,19 @@ export const useAuthStore = create<AuthState>()(
       tokens: null,
       isAuthenticated: false,
 
-      setAuth: (user, tokens) =>
-        set({ user, tokens, isAuthenticated: true }),
+      setAuth: (user, tokens) => {
+        setAuthCookie();
+        set({ user, tokens, isAuthenticated: true });
+      },
 
       setUser: (user) => set({ user }),
 
       setTokens: (tokens) => set({ tokens }),
 
-      clearAuth: () =>
-        set({ user: null, tokens: null, isAuthenticated: false }),
+      clearAuth: () => {
+        clearAuthCookie();
+        set({ user: null, tokens: null, isAuthenticated: false });
+      },
     }),
     {
       name: "taskforge_auth",
