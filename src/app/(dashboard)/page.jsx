@@ -8,7 +8,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { useOrgs, useCreateOrg } from "@/lib/hooks/useOrgs";
 import { useAuthStore } from "@/lib/store/authStore";
-import { ApiError } from "@/lib/types";
+import { ApiError } from "@/lib/api/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,8 +19,6 @@ const createOrgSchema = z.object({
   description: z.string().optional(),
   website: z.string().url("Enter a valid URL.").or(z.literal("")).optional(),
 });
-
-type CreateOrgForm = z.infer<typeof createOrgSchema>;
 
 export default function DashboardPage() {
   const user = useAuthStore((s) => s.user);
@@ -34,9 +32,9 @@ export default function DashboardPage() {
     formState: { errors, isSubmitting },
     reset,
     setError,
-  } = useForm<CreateOrgForm>({ resolver: zodResolver(createOrgSchema) });
+  } = useForm({ resolver: zodResolver(createOrgSchema) });
 
-  const onCreateOrg = async (data: CreateOrgForm) => {
+  const onCreateOrg = async (data) => {
     try {
       await createOrg.mutateAsync(data);
       setShowCreate(false);
@@ -45,7 +43,7 @@ export default function DashboardPage() {
       if (err instanceof ApiError) {
         if (err.errors) {
           Object.keys(err.errors).forEach((f) => {
-            setError(f as keyof CreateOrgForm, { message: err.fieldError(f) });
+            setError(f, { message: err.fieldError(f) });
           });
         }
       }

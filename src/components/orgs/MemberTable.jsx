@@ -1,27 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import type { Membership, MemberRole } from "@/lib/types";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Avatar";
 import { useUpdateMemberRole, useRemoveMember } from "@/lib/hooks/useOrgs";
-import { ApiError } from "@/lib/types";
+import { ApiError } from "@/lib/api/client";
 import styles from "./MemberTable.module.css";
 
-interface MemberTableProps {
-  orgSlug: string;
-  members: Membership[];
-  currentUserEmail?: string;
-  isAdmin?: boolean;
-}
-
-export function MemberTable({ orgSlug, members, currentUserEmail, isAdmin }: MemberTableProps) {
+export function MemberTable({ orgSlug, members, currentUserEmail, isAdmin }) {
   const updateRole = useUpdateMemberRole(orgSlug);
   const removeMember = useRemoveMember(orgSlug);
-  const [removing, setRemoving] = useState<string | null>(null);
+  const [removing, setRemoving] = useState(null);
 
-  const handleRoleChange = async (memberId: string, role: MemberRole) => {
+  const handleRoleChange = async (memberId, role) => {
     try {
       await updateRole.mutateAsync({ memberId, data: { role } });
     } catch (err) {
@@ -29,7 +21,7 @@ export function MemberTable({ orgSlug, members, currentUserEmail, isAdmin }: Mem
     }
   };
 
-  const handleRemove = async (memberId: string) => {
+  const handleRemove = async (memberId) => {
     if (!confirm("Remove this member from the organization?")) return;
     setRemoving(memberId);
     try {
@@ -74,9 +66,7 @@ export function MemberTable({ orgSlug, members, currentUserEmail, isAdmin }: Mem
                     <select
                       className={styles.roleSelect}
                       value={m.role}
-                      onChange={(e) =>
-                        handleRoleChange(m.id, e.target.value as MemberRole)
-                      }
+                      onChange={(e) => handleRoleChange(m.id, e.target.value)}
                     >
                       <option value="admin">Admin</option>
                       <option value="member">Member</option>

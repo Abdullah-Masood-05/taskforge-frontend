@@ -1,6 +1,6 @@
 import styles from "./layout.module.css";
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({ children }) {
   return (
     <div className={styles.root}>
       <div className="auth-bg" />

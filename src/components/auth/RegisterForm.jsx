@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { ApiError } from "@/lib/types";
+import { ApiError } from "@/lib/api/client";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import styles from "./RegisterForm.module.css";
@@ -25,30 +25,27 @@ const schema = z
     path: ["password_confirm"],
   });
 
-type FormData = z.infer<typeof schema>;
-
 export function RegisterForm() {
   const { register: registerUser } = useAuth();
   const router = useRouter();
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(schema) });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data) => {
     setServerError(null);
     try {
       await registerUser(data);
       router.replace("/dashboard");
     } catch (err) {
       if (err instanceof ApiError) {
-        // Map field-level errors from backend → form fields
         if (err.errors) {
-          (Object.keys(err.errors) as Array<keyof FormData>).forEach((field) => {
+          Object.keys(err.errors).forEach((field) => {
             if (field in schema.shape) {
               setError(field, { message: err.fieldError(field) });
             }

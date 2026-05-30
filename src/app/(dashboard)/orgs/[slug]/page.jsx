@@ -11,11 +11,7 @@ import { useOrg, useOrgMembers } from "@/lib/hooks/useOrgs";
 import { useAuthStore } from "@/lib/store/authStore";
 import styles from "./page.module.css";
 
-interface PageProps {
-  params: { slug: string };
-}
-
-export default function OrgDetailPage({ params }: PageProps) {
+export default function OrgDetailPage({ params }) {
   const { slug } = params;
   const user = useAuthStore((s) => s.user);
   const [inviteOpen, setInviteOpen] = useState(false);
