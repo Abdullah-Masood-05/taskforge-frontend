@@ -343,5 +343,4 @@ For issues, questions, or suggestions:
 
 ## Related Projects
 
-- [TaskForge Backend](https://github.com/taskforge/backend) - Django REST API
-- [TaskForge Mobile](https://github.com/taskforge/mobile) - React Native app
+- [TaskForge Backend](https://github.com/Abdullah-Masood-05/taskforge-backend.git) - Django REST API
