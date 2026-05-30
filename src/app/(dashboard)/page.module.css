@@ -1,0 +1,161 @@
+.main {
+  flex: 1;
+  padding: 0 0 40px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+
+/* ── Welcome banner ───────────────────────────────────────────────────────── */
+.banner {
+  position: relative;
+  background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.06) 100%);
+  border: 1px solid var(--border-brand);
+  border-radius: var(--radius-xl);
+  padding: 32px 40px;
+  margin: 24px 0 32px;
+  overflow: hidden;
+}
+
+.bannerContent {
+  position: relative;
+  z-index: 1;
+}
+
+.bannerTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text-primary) 40%, var(--brand-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.bannerSub {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.bannerOrb {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Section ──────────────────────────────────────────────────────────────── */
+.section {
+  /* nothing — future sections can reuse this */
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+/* ── Org grid ─────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* ── New org tile ─────────────────────────────────────────────────────────── */
+.newOrgTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 172px;
+  border: 2px dashed var(--border-default);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition:
+    border-color var(--duration-default) var(--ease-default),
+    color var(--duration-default) var(--ease-default),
+    background var(--duration-default) var(--ease-default);
+}
+
+.newOrgTile:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  background: var(--brand-primary-light);
+}
+
+.plusIcon {
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* ── Skeleton loading ─────────────────────────────────────────────────────── */
+.skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.skeletonCard {
+  height: 172px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 24px;
+  text-align: center;
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-xl);
+}
+
+.emptyIcon {
+  width: 56px;
+  height: 56px;
+  color: var(--text-disabled);
+}
+
+.emptyTitle {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.emptyHint {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  max-width: 300px;
+}
+
+/* ── Create org form ──────────────────────────────────────────────────────── */
+.createForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

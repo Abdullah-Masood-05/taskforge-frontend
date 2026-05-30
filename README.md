@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# taskforge-frontend
 
-## Getting Started
+This is a [Next.js](https://nextjs.org) 15 (App Router) project providing the user-facing web interface for TaskForge.
+It uses TypeScript, a pure CSS custom design system, and connects to the TaskForge Django API.
 
-First, run the development server:
+## Tech Stack
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Pure CSS (CSS Modules) + Custom Design System
+- **State**: `zustand` (client/auth state), `@tanstack/react-query` (server state)
+- **Forms**: `react-hook-form` + `zod`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Quick Start
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Install dependencies:
+   ```bash
+   bun install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Copy the environment variables:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+   *Ensure `NEXT_PUBLIC_API_URL` points to your running Django backend (default: `http://localhost:8000`).*
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run the development server:
+   ```bash
+   bun run dev
+   ```
 
-## Learn More
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## Architecture & Design Decisions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Auth State vs Server State
+We maintain a strict boundary between "Who is the user?" and "What data is on the screen?".
+- **Zustand** owns the auth state (user profile, JWT tokens).
+- **TanStack Query** owns all server state (org lists, task data).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Token Storage (Local Storage vs Cookies)
+As a portfolio project, this app stores JWT tokens in `localStorage` (via Zustand persist middleware) instead of `httpOnly` cookies. This makes local development simpler and avoids cross-origin cookie CSRF configuration.
+Next.js Edge Middleware checks a lightweight non-sensitive `taskforge_authenticated` cookie to handle route protection (since Edge Middleware cannot access `localStorage`). The actual `Authorization: Bearer <token>` header is automatically attached to API requests by `src/lib/api/client.ts`.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Styling
+We avoid Tailwind CSS in favor of a robust, custom design system built with CSS Custom Properties (`src/app/globals.css`) and scoped CSS Modules (`*.module.css`). This provides total control over the glassmorphism dark theme aesthetics.

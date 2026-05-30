@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-base);
+  /* Subtle gradient to differentiate from sidebar */
+  background-image: radial-gradient(ellipse 60% 40% at 80% 10%, rgba(99, 102, 241, 0.04) 0%, transparent 60%);
+}
