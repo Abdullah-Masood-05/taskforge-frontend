@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tauri dev",
-    "build": "tauri build",
+    "dev": "next dev",
+    "build": "next build",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
     "start": "next start",
     "lint": "eslint",
     "next:dev": "next dev",
