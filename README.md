@@ -102,7 +102,7 @@ This branch includes a **Tauri desktop application** setup for running TaskForge
 
 2. **Run in development mode:**
    ```bash
-   bun run dev
+   bun tauri dev
    ```
    This will:
    - Start the Next.js development server on `http://localhost:3000`
@@ -131,13 +131,17 @@ bun run build
 #### Available Tauri Scripts
 
 ```bash
-# Development mode (Rust + Next.js hot reload)
-bun run dev
+# Development mode (Rust + Next.js hot reload + Desktop window)
+bun tauri dev
 
 # Production build
-bun run build
+bun tauri build
 
-# Build only the Next.js frontend (used internally)
+# Aliases
+bun run tauri:dev
+bun run tauri:build
+
+# Build only the Next.js frontend (used internally by Tauri)
 bun run next:build
 
 # Run Next.js dev server only
@@ -350,26 +354,32 @@ We use **pure CSS with CSS Modules** instead of Tailwind CSS for:
 
 ### Available Commands
 
-**For Web Development:**
+**For Web Development (Browser Only):**
 ```bash
 # Start Next.js development server with hot reload
-bun run next:dev
-
-# Build Next.js for production
-bun run next:build
-```
-
-**For Desktop App Development (Tauri):**
-```bash
-# Start Tauri development mode (includes Next.js dev server)
 bun run dev
 
-# Build desktop app for current platform
+# Build Next.js for production
 bun run build
 ```
 
-**Other:**
+**For Desktop App Development (Tauri + Browser):**
 ```bash
+# Start Tauri development mode (includes Next.js dev server and desktop window)
+bun tauri dev
+
+# Build desktop app for current platform
+bun tauri build
+```
+
+**Aliases & Other:**
+```bash
+# Tauri dev alias
+bun run tauri:dev
+
+# Tauri build alias
+bun run tauri:build
+
 # Start production server
 bun start
 
