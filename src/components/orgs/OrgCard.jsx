@@ -15,7 +15,7 @@ const BuildingIcon = () => (
 
 export function OrgCard({ org }) {
   return (
-    <Link href={`/dashboard/orgs/${org.slug}`} className={styles.link}>
+    <Link href={`/orgs/${org.slug}`} className={styles.link}>
       <Card hoverable className={styles.card}>
         <CardBody>
           <div className={styles.header}>

@@ -28,7 +28,7 @@ export function proxy(request) {
 
   // If authenticated and trying to access login/register
   if (isAuthenticated && isPublicPath) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();

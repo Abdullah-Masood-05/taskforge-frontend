@@ -41,7 +41,7 @@ export function RegisterForm() {
     setServerError(null);
     try {
       await registerUser(data);
-      router.replace("/dashboard");
+      router.replace("/");
     } catch (err) {
       if (err instanceof ApiError) {
         if (err.errors) {

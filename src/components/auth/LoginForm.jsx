@@ -34,7 +34,7 @@ export function LoginForm() {
     setServerError(null);
     try {
       await login(data);
-      const from = searchParams.get("from") ?? "/dashboard";
+      const from = searchParams.get("from") ?? "/";
       router.replace(from);
     } catch (err) {
       if (err instanceof ApiError) {

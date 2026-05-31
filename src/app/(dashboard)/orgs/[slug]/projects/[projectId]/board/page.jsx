@@ -1,0 +1,165 @@
+"use client";
+
+/**
+ * Kanban board page.
+ * Route: /orgs/[slug]/projects/[projectId]/board
+ */
+
+import { useState, useCallback } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import { KanbanBoard } from "@/components/tasks/KanbanBoard";
+import { TaskDetailModal } from "@/components/tasks/TaskDetailModal";
+import {
+  useProject,
+  useProjectStatuses,
+  useTasks,
+  useMoveTask,
+  useCreateTask,
+} from "@/lib/hooks/useTasks";
+import { orgsApi } from "@/lib/api/orgs";
+import { useQuery } from "@tanstack/react-query";
+import styles from "./page.module.css";
+
+function useOrgMembers(orgSlug) {
+  return useQuery({
+    queryKey: ["org-members", orgSlug],
+    queryFn: () => orgsApi.listMembers(orgSlug),
+    enabled: !!orgSlug,
+    select: (d) => d?.results ?? [],
+  });
+}
+
+export default function BoardPage() {
+  const { slug, projectId } = useParams();
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [filters, setFilters] = useState({});
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Data
+  const { data: project } = useProject(slug, projectId);
+  const { data: statuses = [], isLoading: statusesLoading } = useProjectStatuses(slug, projectId);
+  const { data: tasks = [], isLoading: tasksLoading } = useTasks(slug, projectId, filters);
+  const { data: members = [] } = useOrgMembers(slug);
+
+  // Mutations
+  const moveTask = useMoveTask(slug, projectId);
+  const createTask = useCreateTask(slug, projectId);
+
+  const handleMove = useCallback(
+    (data) => moveTask.mutateAsync(data),
+    [moveTask]
+  );
+
+  const handleAddTask = useCallback(
+    async (data) => {
+      await createTask.mutateAsync(data);
+    },
+    [createTask]
+  );
+
+  const isLoading = statusesLoading || tasksLoading;
+
+  return (
+    <div className={styles.page}>
+      {/* ── Topbar ──────────────────────────────────────────────────────────── */}
+      <div className={styles.topbar}>
+        <div className={styles.breadcrumb}>
+          <Link href={`/orgs/${slug}/projects`} className={styles.breadLink}>
+            Projects
+          </Link>
+          <span className={styles.breadSep}>/</span>
+          <span className={styles.breadCurrent}>{project?.name ?? "…"}</span>
+        </div>
+
+        <div className={styles.topbarActions}>
+          {/* Filter toggle */}
+          <button
+            className={[styles.filterBtn, showFilters ? styles.filterBtnActive : ""].join(" ")}
+            onClick={() => setShowFilters((p) => !p)}
+          >
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" width="14" height="14">
+              <path d="M2 4h12M4 8h8M6 12h4" />
+            </svg>
+            Filter
+          </button>
+        </div>
+      </div>
+
+      {/* ── Filter bar ──────────────────────────────────────────────────────── */}
+      {showFilters && (
+        <div className={styles.filterBar}>
+          <select
+            className={styles.filterSelect}
+            value={filters.priority ?? ""}
+            onChange={(e) => setFilters((f) => ({ ...f, priority: e.target.value || undefined }))}
+          >
+            <option value="">All priorities</option>
+            <option value="urgent">Urgent</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+
+          <select
+            className={styles.filterSelect}
+            value={filters.assignee ?? ""}
+            onChange={(e) => setFilters((f) => ({ ...f, assignee: e.target.value || undefined }))}
+          >
+            <option value="">All assignees</option>
+            <option value="unassigned">Unassigned</option>
+            {members.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.user_full_name || m.user_email}
+              </option>
+            ))}
+          </select>
+
+          <input
+            className={styles.filterInput}
+            placeholder="Search tasks…"
+            value={filters.search ?? ""}
+            onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value || undefined }))}
+          />
+
+          {Object.values(filters).some(Boolean) && (
+            <button className={styles.clearFilters} onClick={() => setFilters({})}>
+              Clear filters
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* ── Board ───────────────────────────────────────────────────────────── */}
+      <div className={styles.boardWrap}>
+        {isLoading ? (
+          <div className={styles.loadingRow}>
+            {[1, 2, 3].map((n) => (
+              <div key={n} className={styles.skeletonCol} />
+            ))}
+          </div>
+        ) : (
+          <KanbanBoard
+            statuses={statuses}
+            tasks={tasks}
+            onMove={handleMove}
+            onAddTask={handleAddTask}
+            onCardOpen={setSelectedTask}
+          />
+        )}
+      </div>
+
+      {/* ── Task detail modal ────────────────────────────────────────────────── */}
+      {selectedTask && (
+        <TaskDetailModal
+          task={selectedTask}
+          projectId={projectId}
+          orgSlug={slug}
+          members={members}
+          statuses={statuses}
+          onClose={() => setSelectedTask(null)}
+        />
+      )}
+    </div>
+  );
+}
