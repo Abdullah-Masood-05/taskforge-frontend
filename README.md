@@ -2,11 +2,14 @@
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=0B1F26)](https://react.dev)
+[![Tauri](https://img.shields.io/badge/Tauri-2-24C6DC?logo=tauri&logoColor=white)](https://tauri.app)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Bun](https://img.shields.io/badge/Bun-latest-000000?logo=bun&logoColor=white)](https://bun.sh)
 [![CSS Modules](https://img.shields.io/badge/CSS%20Modules-styled-1572B6?logo=css3&logoColor=white)](https://github.com/css-modules/css-modules)
 
 A modern, full-featured frontend for TaskForge built with Next.js 16 and React 19. This application provides the user-facing web interface for task and organization management, featuring real-time state management, form validation, and a sleek dark-themed UI with glassmorphism design patterns.
+
+**🖥️ This branch (`tauri-desktop-app`) includes a Tauri desktop application setup for running TaskForge as a native desktop app on Windows, macOS, and Linux. See [Desktop App (Tauri)](#desktop-app-tauri) below for details.**
 
 ## Features
 
@@ -22,8 +25,10 @@ A modern, full-featured frontend for TaskForge built with Next.js 16 and React 1
 ## Tech Stack
 
 - **Framework**: [Next.js 16](https://nextjs.org) (App Router)
+- **Desktop**: [Tauri 2](https://tauri.app) - Native desktop app framework
+- **Backend**: [Rust](https://www.rust-lang.org) (Tauri backend)
 - **Runtime**: [Bun](https://bun.sh)
-- **Language**: JavaScript (ES2024)
+- **Language**: JavaScript (ES2024) + Rust
 - **Styling**: Pure CSS with CSS Modules + Custom Design System
 - **State Management**: 
   - `zustand` - Client/auth state
@@ -72,6 +77,182 @@ A modern, full-featured frontend for TaskForge built with Next.js 16 and React 1
 
 5. **Open your browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
+
+## Desktop App (Tauri)
+
+This branch includes a **Tauri desktop application** setup for running TaskForge as a native desktop app on Windows, macOS, and Linux.
+
+### Tauri Quick Start
+
+#### Prerequisites
+
+- [Rust](https://www.rust-lang.org/tools/install) (Required for Tauri)
+- [Bun](https://bun.sh) v1.0+ (or Node.js 20+)
+- Platform-specific requirements:
+  - **Windows**: Visual Studio Build Tools 2019+ or Visual Studio Community with C++ workload
+  - **macOS**: Xcode and Xcode Command Line Tools (`xcode-select --install`)
+  - **Linux**: `libwebkit2gtk-4.1-dev`, `build-essential`, `curl`, `wget`, `openssl`, `libssl-dev`, `libgtk-3-dev`, `libayatana-appindicator3-dev`, `librsvg2-dev`
+
+#### Development
+
+1. **Install dependencies:**
+   ```bash
+   bun install
+   ```
+
+2. **Run in development mode:**
+   ```bash
+   bun run dev
+   ```
+   This will:
+   - Start the Next.js development server on `http://localhost:3000`
+   - Launch the Tauri desktop window pointing to the dev server
+   - Hot-reload enabled for both frontend and backend changes
+
+3. **DevTools:**
+   - In the Tauri window, press `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Opt+I` (macOS) to open developer tools
+
+#### Building for Production
+
+Build the desktop app for your platform:
+
+```bash
+# Build for current platform
+bun run build
+
+# The compiled app will be in: src-tauri/target/release/bundle/
+```
+
+**Output locations:**
+- **Windows**: `src-tauri/target/release/bundle/msi/` or `.exe`
+- **macOS**: `src-tauri/target/release/bundle/dmg/` or `.app`
+- **Linux**: `src-tauri/target/release/bundle/deb/`, `.rpm`, or AppImage
+
+#### Available Tauri Scripts
+
+```bash
+# Development mode (Rust + Next.js hot reload)
+bun run dev
+
+# Production build
+bun run build
+
+# Build only the Next.js frontend (used internally)
+bun run next:build
+
+# Run Next.js dev server only
+bun run next:dev
+```
+
+### Tauri Project Structure
+
+```
+src-tauri/
+├── src/
+│   ├── main.rs              # Tauri app entry point
+│   └── lib.rs               # Rust library code
+├── Cargo.toml               # Rust dependencies
+├── tauri.conf.json          # Tauri configuration
+├── build.rs                 # Build script
+├── capabilities/            # Security capabilities
+│   └── default.json         # Default capability set
+└── icons/                   # App icons for all platforms
+```
+
+### Configuration
+
+**`src-tauri/tauri.conf.json`** contains Tauri settings:
+
+- **`build`**: Build & dev commands
+  - `beforeDevCommand`: Runs `bun run next:dev` before starting Tauri dev
+  - `beforeBuildCommand`: Runs `bun run next:build` before production build
+  - `frontendDist`: Points to `.next` (Next.js output)
+  - `devUrl`: Points to `http://localhost:3000` (Next.js dev server)
+
+- **`app`**: Window configuration
+  - Window size: 1200x900
+  - Resizable and non-fullscreen by default
+  - CSP set to null for local development
+
+- **`bundle`**: Distribution settings
+  - Identifier: `com.taskforge.app`
+  - Bundled for all platforms by default
+  - App icons included for all platforms
+
+### Communicating Between Frontend and Rust Backend
+
+You can invoke Rust commands from the frontend using the Tauri API:
+
+**Rust side** (`src-tauri/src/main.rs`):
+```rust
+#[tauri::command]
+fn greet(name: &str) -> String {
+    format!("Hello, {}!", name)
+}
+```
+
+**Frontend side** (React component):
+```javascript
+import { invoke } from '@tauri-apps/api/core';
+
+async function greet() {
+  const response = await invoke('greet', { name: 'TaskForge' });
+  console.log(response);
+}
+```
+
+### Platform-Specific Features
+
+- **File I/O**: Access local file system for saving/loading project files
+- **Native Notifications**: Send desktop notifications for task updates
+- **System Integration**: Register app with OS for opening file types
+- **Tray Integration**: Add app to system tray for quick access
+
+### Debugging
+
+1. **Console logs in Tauri window**: Press `Ctrl+Shift+I` to open DevTools
+2. **Rust logs**: Check terminal output where you ran `bun run dev`
+3. **Common issues**:
+   - **Port 3000 in use**: Kill the process or change `devUrl` in `tauri.conf.json`
+   - **Build fails**: Ensure Rust is installed with `rustc --version`
+   - **Icon issues**: Regenerate icons in `src-tauri/icons/` if needed
+
+### Updating Tauri
+
+To update Tauri to the latest version:
+
+```bash
+bun update @tauri-apps/cli @tauri-apps/api
+```
+
+Then update Rust:
+```bash
+rustup update
+```
+
+### Troubleshooting
+
+#### Windows Build Issues
+Ensure Visual Studio Build Tools are installed:
+```powershell
+# Install via winget
+winget install -e --id Microsoft.VisualStudio.Community
+```
+
+#### macOS Code Signing (for distribution)
+For App Store or outside distribution, you'll need to sign the app. Configure in `src-tauri/tauri.conf.json` or use Xcode.
+
+#### Linux Permissions
+On Linux, you may need to make the binary executable:
+```bash
+chmod +x src-tauri/target/release/taskforge-frontend
+```
+
+### Resources
+
+- [Tauri Documentation](https://tauri.app)
+- [Tauri API Reference](https://docs.rs/tauri)
+- [Tauri Community](https://discord.gg/tauri)
 
 ## Folder Structure
 
@@ -169,13 +350,26 @@ We use **pure CSS with CSS Modules** instead of Tailwind CSS for:
 
 ### Available Commands
 
+**For Web Development:**
 ```bash
-# Start development server with hot reload
+# Start Next.js development server with hot reload
+bun run next:dev
+
+# Build Next.js for production
+bun run next:build
+```
+
+**For Desktop App Development (Tauri):**
+```bash
+# Start Tauri development mode (includes Next.js dev server)
 bun run dev
 
-# Build for production
+# Build desktop app for current platform
 bun run build
+```
 
+**Other:**
+```bash
 # Start production server
 bun start
 
