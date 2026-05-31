@@ -1,10 +1,11 @@
-import { forwardRef } from "react";
+import { forwardRef, useId } from "react";
 import styles from "./Input.module.css";
 
 export const Input = forwardRef(
   ({ label, error, hint, className, id: propId, ...props }, ref) => {
-    // Generate a simple unique id if none provided for a11y linking
-    const id = propId || `input-${Math.random().toString(36).slice(2, 9)}`;
+    // useId() is SSR-safe — produces the same ID on server and client
+    const reactId = useId();
+    const id = propId || reactId;
 
     return (
       <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
