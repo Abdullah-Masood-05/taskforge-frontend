@@ -19,8 +19,8 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000",
   },
-  // Enable standalone build for Docker
-  output: "standalone",
+  // Tauri compatibility - use default output instead of standalone
+  // The Tauri build system will handle the output directory
 };
 
 export default nextConfig;
