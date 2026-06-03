@@ -5,6 +5,7 @@ export function useOrgs() {
   return useQuery({
     queryKey: ["orgs"],
     queryFn: () => orgsApi.list(),
+    select: (data) => data?.results ?? [],
   });
 }
 
@@ -56,6 +57,7 @@ export function useOrgMembers(slug) {
     queryKey: ["org", slug, "members"],
     queryFn: () => orgsApi.listMembers(slug),
     enabled: !!slug,
+    select: (data) => data?.results ?? [],
   });
 }
 
