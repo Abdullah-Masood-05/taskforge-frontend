@@ -75,11 +75,11 @@ export function useDeleteProject(orgSlug) {
   });
 }
 
-export function useArchiveProject(orgSlug, projectId) {
+export function useArchiveProject(orgSlug) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: () => projectsApi.archive(orgSlug, projectId),
-    onSuccess: () => {
+    mutationFn: (projectId) => projectsApi.archive(orgSlug, projectId),
+    onSuccess: (_, projectId) => {
       qc.invalidateQueries({ queryKey: taskKeys.projects(orgSlug) });
       qc.invalidateQueries({ queryKey: taskKeys.project(orgSlug, projectId) });
     },
