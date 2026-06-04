@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import QueryProvider from "@/components/layout/QueryProvider";
+import { Toaster } from "@/components/ui/Toaster";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={inter.variable}>
       <body className="antialiased">
         <QueryProvider>{children}</QueryProvider>
+        <Toaster />
       </body>
     </html>
   );
