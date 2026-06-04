@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useOrgs } from "@/lib/hooks/useOrgs";
+import { useAuthStore } from "@/lib/store/authStore";
 import styles from "./Sidebar.module.css";
 
 const navItems = [
@@ -39,30 +40,37 @@ const Icon = ({ name, className }) => {
 export function Sidebar() {
   const pathname = usePathname();
   const { data: orgs } = useOrgs();
+  const { user, logout } = useAuthStore();
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.header}>
-        <div className={styles.logo}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <polygon points="12 2 2 7 12 12 22 7 12 2" />
-            <polyline points="2 17 12 22 22 17" />
-            <polyline points="2 12 12 17 22 12" />
-          </svg>
-          TaskForge
-        </div>
+      <div className={styles.logoArea}>
+        <Link href="/" className={styles.logo}>
+          <span className={styles.logoIcon}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+          </span>
+          <span className={styles.brandText}>
+            <span className={styles.logoName}>TaskForge</span>
+            <span className={styles.logoSub}>Terminal Access</span>
+          </span>
+        </Link>
       </div>
 
       <nav className={styles.nav}>
+        <p className={styles.navLabel}>Core Terminal</p>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={[styles.link, isActive ? styles.active : ""].join(" ")}
+              className={[styles.navItem, isActive ? styles.navItemActive : ""].join(" ")}
             >
-              <Icon name={item.icon} className={styles.icon} />
+              <Icon name={item.icon} className={styles.navIcon} />
               {item.name}
             </Link>
           );
@@ -99,6 +107,17 @@ export function Sidebar() {
               );
             })}
           </ul>
+        </div>
+      )}
+
+      {user && (
+        <div className={styles.footer}>
+          <button className={styles.userRow} onClick={logout} title="Click to logout">
+            <div className={styles.userInfo}>
+              <span className={styles.userName}>{user.first_name} {user.last_name}</span>
+              <span className={styles.userEmail}>{user.email}</span>
+            </div>
+          </button>
         </div>
       )}
     </aside>

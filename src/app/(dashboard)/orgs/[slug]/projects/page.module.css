@@ -402,7 +402,7 @@
 .input:focus,
 .textarea:focus {
   border-color: var(--border-brand);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
 }
 
 .modalActions {
@@ -417,7 +417,7 @@
 .btnPrimary {
   padding: 9px 20px;
   background: var(--brand-primary);
-  color: #fff;
+  color: #291800;
   border: none;
   border-radius: var(--radius-md);
   font-size: 0.875rem;
@@ -432,7 +432,7 @@
 .btnPrimary:hover:not(:disabled) {
   background: var(--brand-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.35);
 }
 
 .btnPrimary:disabled {

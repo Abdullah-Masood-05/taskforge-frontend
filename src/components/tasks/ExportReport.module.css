@@ -22,9 +22,9 @@
 }
 
 .exportBtn:hover {
-  background: rgba(99, 102, 241, 0.1);
-  border-color: rgba(99, 102, 241, 0.4);
-  color: var(--accent, #6366f1);
+  background: rgba(245, 166, 35, 0.1);
+  border-color: rgba(245, 166, 35, 0.4);
+  color: var(--accent, #f5a623);
 }
 
 .exportBtn svg {
@@ -47,8 +47,8 @@
 .spinner {
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(99, 102, 241, 0.25);
-  border-top-color: #6366f1;
+  border: 2px solid rgba(245, 166, 35, 0.25);
+  border-top-color: #f5a623;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -77,14 +77,14 @@
   gap: 6px;
   padding: 7px 14px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #fff;
+  background: linear-gradient(135deg, #f5a623, #ffc880);
+  color: #291800;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   transition: opacity 0.15s, transform 0.1s;
-  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 2px 12px rgba(245, 166, 35, 0.35);
 }
 
 .downloadBtn:hover {

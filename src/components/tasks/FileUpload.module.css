@@ -31,14 +31,14 @@
 
 .dropzone:hover,
 .dropzone:focus-visible {
-  border-color: var(--accent, #6366f1);
-  background: rgba(99, 102, 241, 0.05);
+  border-color: var(--accent, #f5a623);
+  background: rgba(245, 166, 35, 0.05);
   outline: none;
 }
 
 .dragging {
-  border-color: var(--accent, #6366f1);
-  background: rgba(99, 102, 241, 0.08);
+  border-color: var(--accent, #f5a623);
+  background: rgba(245, 166, 35, 0.08);
 }
 
 .uploadIcon {
@@ -53,7 +53,7 @@
 }
 
 .dropText strong {
-  color: var(--accent, #6366f1);
+  color: var(--accent, #f5a623);
 }
 
 .dropHint {
@@ -76,7 +76,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  background: linear-gradient(90deg, #f5a623, #ffc880);
   border-radius: 2px;
   transition: width 0.2s ease;
 }
@@ -141,7 +141,7 @@
   display: block;
 }
 
-.fileName:hover { text-decoration: underline; color: var(--accent, #6366f1); }
+.fileName:hover { text-decoration: underline; color: var(--accent, #f5a623); }
 
 .fileMeta {
   font-size: 11px;

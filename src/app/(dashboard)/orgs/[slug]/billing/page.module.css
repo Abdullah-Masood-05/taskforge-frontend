@@ -1,0 +1,194 @@
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Success banner ─────────────────────────────────────────── */
+
+.successBanner {
+  padding: 14px 20px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+  font-size: 14px;
+}
+
+/* ── Plan card ──────────────────────────────────────────────── */
+
+.card {
+  background: var(--surface, rgba(255,255,255,0.04));
+  border: 1px solid var(--border, rgba(255,255,255,0.08));
+  border-radius: 14px;
+  padding: 28px;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 20px;
+}
+
+.planRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Plan badge */
+.planBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 18px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.planBadge[data-plan="free"] {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-secondary, #9ca3af);
+}
+.planBadge[data-plan="pro"] {
+  background: rgba(245, 166, 35, 0.15);
+  color: #ffb955;
+  box-shadow: 0 0 16px rgba(245,166,35,0.2);
+}
+.planBadge[data-plan="business"] {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  box-shadow: 0 0 16px rgba(245,158,11,0.15);
+}
+
+.planMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.statusChip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.statusChip[data-status="active"] { background: rgba(16,185,129,0.12); color: #34d399; }
+.statusChip[data-status="trialing"] { background: rgba(245,166,35,0.12); color: #ffb955; }
+.statusChip[data-status="past_due"] { background: rgba(239,68,68,0.12); color: #f87171; }
+.statusChip[data-status="canceled"] { background: rgba(107,114,128,0.12); color: #9ca3af; }
+
+.periodEnd {
+  font-size: 13px;
+  color: var(--text-muted, #6b7280);
+}
+
+.cardActions {
+  display: flex;
+  gap: 12px;
+}
+
+.upgradeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f5a623, #ffc880);
+  color: #291800;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s, transform 0.1s;
+  box-shadow: 0 2px 16px rgba(245,166,35,0.35);
+}
+.upgradeBtn:hover { opacity: 0.9; transform: translateY(-1px); }
+.upgradeBtn svg { width: 16px; height: 16px; }
+
+.manageBtn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border, rgba(255,255,255,0.1));
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary, #f3f4f6);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.manageBtn:hover { background: rgba(255,255,255,0.08); }
+.manageBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Feature card ───────────────────────────────────────────── */
+
+.featureCard {
+  background: var(--surface, rgba(255,255,255,0.03));
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+  border-radius: 14px;
+  padding: 28px;
+}
+
+.featureTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 20px;
+}
+
+.featureGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.featureRow {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 100px);
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.05));
+  gap: 8px;
+}
+.featureRow:last-child { border-bottom: none; }
+
+.featureLabel {
+  font-size: 13px;
+  color: var(--text-primary, #f3f4f6);
+}
+
+.featureCell {
+  font-size: 13px;
+  color: var(--text-secondary, #9ca3af);
+  text-align: center;
+}
+.featureCell[data-highlight="pro"] { color: #ffb955; font-weight: 500; }
+.featureCell[data-highlight="business"] { color: #fbbf24; font-weight: 500; }
+
+.pricingLink {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #ffb955;
+  text-decoration: none;
+}
+.pricingLink:hover { text-decoration: underline; }
+
+/* Skeleton */
+.skeleton {
+  height: 60px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }

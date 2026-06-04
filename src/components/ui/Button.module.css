@@ -31,9 +31,10 @@
 /* ── Variants ─────────────────────────────────────────────────────────────── */
 .primary {
   background: var(--brand-gradient);
-  color: #fff;
+  color: #291800;
   border-color: transparent;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(245, 166, 35, 0.28);
 }
 
 .primary:hover:not(:disabled) {
