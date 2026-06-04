@@ -3,6 +3,10 @@
 /**
  * Kanban board page.
  * Route: /orgs/[slug]/projects/[projectId]/board
+ *
+ * Real-time updates: useProjectBoard opens a WebSocket to
+ * ws://.../ws/projects/{projectId}/board/?token=<jwt>
+ * and keeps the TanStack Query task cache in sync.
  */
 
 import { useState, useCallback } from "react";
@@ -17,6 +21,7 @@ import {
   useMoveTask,
   useCreateTask,
 } from "@/lib/hooks/useTasks";
+import { useProjectBoard } from "@/lib/hooks/useProjectBoard";
 import { orgsApi } from "@/lib/api/orgs";
 import { useQuery } from "@tanstack/react-query";
 import styles from "./page.module.css";
@@ -41,6 +46,9 @@ export default function BoardPage() {
   const { data: statuses = [], isLoading: statusesLoading } = useProjectStatuses(slug, projectId);
   const { data: tasks = [], isLoading: tasksLoading } = useTasks(slug, projectId, filters);
   const { data: members = [] } = useOrgMembers(slug);
+
+  // Real-time WebSocket sync — keeps task cache live across all tabs
+  const { connected } = useProjectBoard(projectId);
 
   // Mutations
   const moveTask = useMoveTask(slug, projectId);
@@ -73,6 +81,13 @@ export default function BoardPage() {
         </div>
 
         <div className={styles.topbarActions}>
+          {/* Live indicator */}
+          <span
+            className={styles.liveIndicator}
+            data-connected={connected}
+            title={connected ? "Live updates active" : "Connecting…"}
+          />
+
           {/* Filter toggle */}
           <button
             className={[styles.filterBtn, showFilters ? styles.filterBtnActive : ""].join(" ")}
