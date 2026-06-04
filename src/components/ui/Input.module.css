@@ -38,7 +38,7 @@
 
 .input:focus {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
   background: var(--bg-overlay);
 }
 
