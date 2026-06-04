@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { notFound } from "next/navigation";
 import { Topbar } from "@/components/layout/Topbar";
 import { MemberTable } from "@/components/orgs/MemberTable";
@@ -12,7 +12,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import styles from "./page.module.css";
 
 export default function OrgDetailPage({ params }) {
-  const { slug } = params;
+  const { slug } = use(params);
   const user = useAuthStore((s) => s.user);
   const [inviteOpen, setInviteOpen] = useState(false);
 

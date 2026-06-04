@@ -1,0 +1,186 @@
+.wrapper {
+  position: relative;
+}
+
+.bellBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #9ca3af);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.bellBtn:hover {
+  background: var(--surface-hover, rgba(255,255,255,0.06));
+  color: var(--text-primary, #f3f4f6);
+}
+
+.bellIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  pointer-events: none;
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ── Dropdown ───────────────────────────────────────────────── */
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 360px;
+  max-height: 500px;
+  background: var(--surface, #1a1d2e);
+  border: 1px solid var(--border, rgba(255,255,255,0.08));
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  animation: slideDown 0.18s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.06));
+  flex-shrink: 0;
+}
+
+.dropdownTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #f3f4f6);
+}
+
+.markAllBtn {
+  font-size: 12px;
+  color: var(--accent, #6366f1);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: opacity 0.15s;
+}
+
+.markAllBtn:hover { opacity: 0.8; }
+.markAllBtn:disabled { opacity: 0.3; cursor: default; }
+
+.list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-secondary, #6b7280);
+  font-size: 14px;
+}
+
+/* ── Notification Item ──────────────────────────────────────── */
+
+.item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.04));
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+}
+
+.item:hover { background: var(--surface-hover, rgba(255,255,255,0.04)); }
+.item:last-child { border-bottom: none; }
+
+.itemRead {
+  opacity: 0.55;
+}
+
+.itemDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+  background: #6366f1;
+  transition: background 0.15s;
+}
+
+.itemDot[data-read="true"] {
+  background: transparent;
+  border: 1px solid var(--border, rgba(255,255,255,0.12));
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.itemDesc {
+  font-size: 13px;
+  color: var(--text-primary, #e5e7eb);
+  line-height: 1.4;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.itemMeta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.itemActor {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent, #6366f1);
+}
+
+.itemTime {
+  font-size: 11px;
+  color: var(--text-secondary, #6b7280);
+}

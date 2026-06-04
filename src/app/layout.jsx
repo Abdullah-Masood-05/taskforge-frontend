@@ -13,6 +13,10 @@ export const metadata = {
     default: "TaskForge — Modern Team Project Management",
   },
   description: "Built for modern teams to manage projects and tasks efficiently.",
+  icons: {
+    icon: "/Taskforge-Logo.svg",
+    apple: "/Taskforge-Logo.svg",
+  },
 };
 
 export default function RootLayout({ children }) {

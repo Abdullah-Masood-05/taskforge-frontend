@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Avatar } from "@/components/ui/Avatar";
 import { useAuth } from "@/lib/hooks/useAuth";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 import styles from "./Topbar.module.css";
 
 export function Topbar({ title, actions }) {
@@ -24,6 +25,8 @@ export function Topbar({ title, actions }) {
 
       <div className={styles.right}>
         {actions && <div className={styles.actions}>{actions}</div>}
+
+        <NotificationBell />
 
         <div className={styles.userMenu}>
           <button
