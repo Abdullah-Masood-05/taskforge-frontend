@@ -69,13 +69,14 @@ export default function DashboardPage() {
         {/* ── Welcome banner ─────────────────────────────────────────────── */}
         <section className={styles.banner}>
           <div className={styles.bannerContent}>
+            <p className={styles.eyebrow}>Status: Terminal Active</p>
             <h2 className={styles.bannerTitle}>
-              {greeting}, {user?.first_name ?? "there"} 👋
+              {greeting}, {user?.first_name ?? "there"}
             </h2>
             <p className={styles.bannerSub}>
               {orgs?.length
-                ? `You're a member of ${orgs.length} organization${orgs.length !== 1 ? "s" : ""}.`
-                : "Create your first organization to get started."}
+                ? `Your terminal for project orchestration — operational across ${orgs.length} organization${orgs.length !== 1 ? "s" : ""}.`
+                : "Your terminal for project orchestration. Create your first organization to get started."}
             </p>
           </div>
           <div className={styles.bannerOrb} aria-hidden="true" />
