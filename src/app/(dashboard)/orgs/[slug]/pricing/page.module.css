@@ -57,13 +57,13 @@
 .cardHighlight {
   background: linear-gradient(
     160deg,
-    rgba(99, 102, 241, 0.08) 0%,
-    rgba(139, 92, 246, 0.06) 100%
+    rgba(245, 166, 35, 0.08) 0%,
+    rgba(255, 200, 128, 0.06) 100%
   );
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 48px rgba(99, 102, 241, 0.08);
+  border-color: rgba(245, 166, 35, 0.3);
+  box-shadow: 0 0 48px rgba(245, 166, 35, 0.08);
 }
-.cardHighlight:hover { border-color: rgba(99, 102, 241, 0.5); }
+.cardHighlight:hover { border-color: rgba(245, 166, 35, 0.5); }
 
 .badge {
   position: absolute;
@@ -72,8 +72,8 @@
   transform: translateX(-50%);
   padding: 4px 14px;
   border-radius: 100px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #fff;
+  background: linear-gradient(135deg, #f5a623, #ffc880);
+  color: #291800;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -95,7 +95,7 @@
   margin-bottom: 12px;
 }
 .planName[data-plan="free"] { color: var(--text-secondary, #9ca3af); }
-.planName[data-plan="pro"]  { color: #818cf8; }
+.planName[data-plan="pro"]  { color: #ffb955; }
 .planName[data-plan="business"] { color: #fbbf24; }
 
 .priceRow {
@@ -159,7 +159,7 @@
   margin-top: 1px;
 }
 .checkIcon[data-plan="free"] { color: var(--text-secondary, #9ca3af); }
-.checkIcon[data-plan="pro"]  { color: #818cf8; }
+.checkIcon[data-plan="pro"]  { color: #ffb955; }
 .checkIcon[data-plan="business"] { color: #fbbf24; }
 
 /* ── CTA button ─────────────────────────────────────────────── */
@@ -184,15 +184,15 @@
 .cta:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .ctaHighlight {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #f5a623, #ffc880);
   border-color: transparent;
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+  color: #291800;
+  box-shadow: 0 4px 20px rgba(245,166,35,0.35);
 }
 .ctaHighlight:not(:disabled):hover {
   opacity: 0.92;
-  color: #fff;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #291800;
+  background: linear-gradient(135deg, #f5a623, #ffc880);
 }
 
 /* ── Disclaimer ─────────────────────────────────────────────── */
