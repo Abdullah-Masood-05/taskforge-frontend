@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useOrgs } from "@/lib/hooks/useOrgs";
+import { useAuthStore } from "@/lib/store/authStore";
 import styles from "./Sidebar.module.css";
 
 const navItems = [
@@ -39,6 +40,7 @@ const Icon = ({ name, className }) => {
 export function Sidebar() {
   const pathname = usePathname();
   const { data: orgs } = useOrgs();
+  const { user, logout } = useAuthStore();
 
   return (
     <aside className={styles.sidebar}>
@@ -60,9 +62,9 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={[styles.link, isActive ? styles.active : ""].join(" ")}
+              className={[styles.navItem, isActive ? styles.navItemActive : ""].join(" ")}
             >
-              <Icon name={item.icon} className={styles.icon} />
+              <Icon name={item.icon} className={styles.navIcon} />
               {item.name}
             </Link>
           );
@@ -99,6 +101,17 @@ export function Sidebar() {
               );
             })}
           </ul>
+        </div>
+      )}
+
+      {user && (
+        <div className={styles.footer}>
+          <button className={styles.userRow} onClick={logout} title="Click to logout">
+            <div className={styles.userInfo}>
+              <span className={styles.userName}>{user.first_name} {user.last_name}</span>
+              <span className={styles.userEmail}>{user.email}</span>
+            </div>
+          </button>
         </div>
       )}
     </aside>
