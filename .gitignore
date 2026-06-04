@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# tauri generated mobile icons (desktop bundle only)
+/src-tauri/icons/android/
+/src-tauri/icons/ios/
