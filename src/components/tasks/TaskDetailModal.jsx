@@ -29,7 +29,7 @@ import styles from "./TaskDetailModal.module.css";
 
 const PRIORITY_OPTIONS = [
   { value: "low",    label: "Low",    color: "#64748b" },
-  { value: "medium", label: "Medium", color: "#6366f1" },
+  { value: "medium", label: "Medium", color: "#9bd9ff" },
   { value: "high",   label: "High",   color: "#f59e0b" },
   { value: "urgent", label: "Urgent", color: "#ef4444" },
 ];
