@@ -14,8 +14,8 @@ export const metadata = {
   },
   description: "Built for modern teams to manage projects and tasks efficiently.",
   icons: {
-    icon: "/Taskforge-Logo.svg",
-    apple: "/Taskforge-Logo.svg",
+    icon: "/Taskforge-New-Logo.svg",
+    apple: "/Taskforge-New-Logo.svg",
   },
 };
 
