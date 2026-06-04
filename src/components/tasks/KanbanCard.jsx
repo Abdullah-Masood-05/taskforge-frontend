@@ -11,7 +11,7 @@ import styles from "./KanbanBoard.module.css";
 const PRIORITY_CONFIG = {
   urgent: { label: "Urgent", color: "#ef4444", bg: "rgba(239,68,68,0.12)" },
   high:   { label: "High",   color: "#f59e0b", bg: "rgba(245,158,11,0.12)" },
-  medium: { label: "Medium", color: "#6366f1", bg: "rgba(99,102,241,0.12)" },
+  medium: { label: "Medium", color: "#9bd9ff", bg: "rgba(155,217,255,0.12)" },
   low:    { label: "Low",    color: "#64748b", bg: "rgba(100,116,139,0.12)" },
 };
 
