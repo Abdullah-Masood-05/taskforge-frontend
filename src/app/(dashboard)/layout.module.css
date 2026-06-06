@@ -16,3 +16,9 @@
     radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
   background-size: auto, 24px 24px;
 }
+
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+  }
+}
