@@ -455,3 +455,31 @@
 .btnSecondary:hover {
   background: var(--bg-elevated);
 }
+
+/* ── Mobile responsive ────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page {
+    padding: 20px 16px 20px 16px;
+    /* Extra top padding on mobile to clear the hamburger button */
+    padding-top: 60px;
+  }
+
+  .pageTitle {
+    font-size: 1.375rem;
+  }
+
+  .grid,
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalActions {
+    flex-direction: column-reverse;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+    text-align: center;
+  }
+}
