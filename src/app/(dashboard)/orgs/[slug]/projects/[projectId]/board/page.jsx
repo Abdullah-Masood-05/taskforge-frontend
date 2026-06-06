@@ -14,12 +14,14 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { KanbanBoard } from "@/components/tasks/KanbanBoard";
 import { TaskDetailModal } from "@/components/tasks/TaskDetailModal";
+import { NewTaskModal } from "@/components/tasks/NewTaskModal";
 import {
   useProject,
   useProjectStatuses,
   useTasks,
   useMoveTask,
   useCreateTask,
+  useCreateStatus,
 } from "@/lib/hooks/useTasks";
 import { useProjectBoard } from "@/lib/hooks/useProjectBoard";
 import { orgsApi } from "@/lib/api/orgs";
@@ -38,6 +40,7 @@ function useOrgMembers(orgSlug) {
 export default function BoardPage() {
   const { slug, projectId } = useParams();
   const [selectedTask, setSelectedTask] = useState(null);
+  const [showNewTask, setShowNewTask] = useState(false);
   const [filters, setFilters] = useState({});
   const [showFilters, setShowFilters] = useState(false);
 
@@ -51,8 +54,9 @@ export default function BoardPage() {
   const { connected } = useProjectBoard(projectId);
 
   // Mutations
-  const moveTask = useMoveTask(slug, projectId);
-  const createTask = useCreateTask(slug, projectId);
+  const moveTask    = useMoveTask(slug, projectId);
+  const createTask  = useCreateTask(slug, projectId);
+  const createStatus = useCreateStatus(slug, projectId);
 
   const handleMove = useCallback(
     (data) => moveTask.mutateAsync(data),
@@ -60,10 +64,13 @@ export default function BoardPage() {
   );
 
   const handleAddTask = useCallback(
-    async (data) => {
-      await createTask.mutateAsync(data);
-    },
+    async (data) => { await createTask.mutateAsync(data); },
     [createTask]
+  );
+
+  const handleAddColumn = useCallback(
+    async (data) => { await createStatus.mutateAsync(data); },
+    [createStatus]
   );
 
   const isLoading = statusesLoading || tasksLoading;
@@ -98,6 +105,19 @@ export default function BoardPage() {
             </svg>
             Filter
           </button>
+
+          {/* New Task */}
+          <button
+            className={styles.newTaskBtn}
+            onClick={() => setShowNewTask(true)}
+            disabled={statuses.length === 0}
+            title={statuses.length === 0 ? "Create a column first" : "Add a new task"}
+          >
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.25" width="13" height="13">
+              <path d="M8 3v10M3 8h10" />
+            </svg>
+            New Task
+          </button>
         </div>
       </div>
 
@@ -123,11 +143,13 @@ export default function BoardPage() {
           >
             <option value="">All assignees</option>
             <option value="unassigned">Unassigned</option>
-            {members.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.user_full_name || m.user_email}
-              </option>
-            ))}
+            {members
+              .filter((m) => m.user_id)
+              .map((m) => (
+                <option key={m.user_id} value={m.user_id}>
+                  {m.user_full_name || m.user_email}
+                </option>
+              ))}
           </select>
 
           <input
@@ -159,6 +181,7 @@ export default function BoardPage() {
             tasks={tasks}
             onMove={handleMove}
             onAddTask={handleAddTask}
+            onAddColumn={handleAddColumn}
             onCardOpen={setSelectedTask}
           />
         )}
@@ -173,6 +196,17 @@ export default function BoardPage() {
           members={members}
           statuses={statuses}
           onClose={() => setSelectedTask(null)}
+        />
+      )}
+
+      {/* ── New task modal ───────────────────────────────────────────────────── */}
+      {showNewTask && (
+        <NewTaskModal
+          orgSlug={slug}
+          projectId={projectId}
+          statuses={statuses}
+          members={members}
+          onClose={() => setShowNewTask(false)}
         />
       )}
     </div>

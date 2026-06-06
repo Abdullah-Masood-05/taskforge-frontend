@@ -73,6 +73,34 @@
   50% { box-shadow: 0 0 10px rgba(16,185,129,0.7); }
 }
 
+/* ── New task button ────────────────────────────────────────────────────────── */
+
+.newTaskBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: var(--brand-primary);
+  color: #291800;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: background var(--duration-fast) var(--ease-default);
+  flex-shrink: 0;
+}
+
+.newTaskBtn:hover:not(:disabled) {
+  background: var(--brand-primary-hover);
+}
+
+.newTaskBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* ── Filter button ─────────────────────────────────────────────────────────── */
 
 .filterBtn {
