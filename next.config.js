@@ -20,8 +20,8 @@ const nextConfig = {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000",
   },
   // standalone output is needed for Docker/self-hosted.
-  // Netlify sets NETLIFY=true and uses @netlify/plugin-nextjs instead — standalone conflicts with it.
-  ...(process.env.NETLIFY ? {} : { output: "standalone" }),
+  // Netlify and Vercel both have their own build adapters — standalone conflicts with them.
+  ...(process.env.NETLIFY || process.env.VERCEL ? {} : { output: "standalone" }),
 };
 
 export default nextConfig;
