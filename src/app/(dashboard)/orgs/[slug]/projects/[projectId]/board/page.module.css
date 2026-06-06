@@ -223,3 +223,48 @@
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.45; }
 }
+
+/* ── Mobile responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 0 12px 0 56px; /* 56px leaves room for the hamburger button */
+    height: 52px;
+    gap: 8px;
+  }
+
+  .breadCurrent {
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .filterBar {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .filterInput {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .boardWrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Icon-only buttons on very small screens */
+  .filterBtnText,
+  .newTaskBtnText {
+    display: none;
+  }
+
+  .filterBtn,
+  .newTaskBtn {
+    padding: 7px 10px;
+  }
+}
