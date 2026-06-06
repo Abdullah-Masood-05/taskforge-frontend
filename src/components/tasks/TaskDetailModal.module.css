@@ -530,11 +530,42 @@
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
+  .overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border-bottom: none;
+    max-height: 92dvh;
+    overflow-y: auto;
+    animation: slideUpMobile 220ms var(--ease-default) both;
+  }
+
+  @keyframes slideUpMobile {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
   .body {
     grid-template-columns: 1fr;
   }
+
   .meta {
     border-right: none;
     border-bottom: 1px solid var(--border-subtle);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .header {
+    padding: 16px 16px 12px;
+  }
+
+  .content {
+    padding: 0;
   }
 }
