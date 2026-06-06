@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useOrgs } from "@/lib/hooks/useOrgs";
@@ -41,85 +42,138 @@ export function Sidebar() {
   const pathname = usePathname();
   const { data: orgs } = useOrgs();
   const { user, logout } = useAuthStore();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const prevPathRef = useRef(pathname);
+
+  // Close sidebar when navigating on mobile
+  useEffect(() => {
+    if (prevPathRef.current !== pathname) {
+      setMobileOpen(false);
+      prevPathRef.current = pathname;
+    }
+  }, [pathname]);
+
+  // Prevent body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   return (
-    <aside className={styles.sidebar}>
-      <div className={styles.logoArea}>
-        <Link href="/" className={styles.logo}>
-          <span className={styles.logoIcon}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-              <polygon points="12 2 2 7 12 12 22 7 12 2" />
-              <polyline points="2 17 12 22 22 17" />
-              <polyline points="2 12 12 17 22 12" />
-            </svg>
-          </span>
-          <span className={styles.brandText}>
-            <span className={styles.logoName}>TaskForge</span>
-            <span className={styles.logoSub}>Terminal Access</span>
-          </span>
-        </Link>
-      </div>
+    <>
+      {/* Mobile hamburger — fixed top-left, hidden on desktop */}
+      <button
+        className={styles.hamburger}
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open navigation"
+      >
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+          <path d="M2 5h16M2 10h16M2 15h16" />
+        </svg>
+      </button>
 
-      <nav className={styles.nav}>
-        <p className={styles.navLabel}>Core Terminal</p>
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={[styles.navItem, isActive ? styles.navItemActive : ""].join(" ")}
-            >
-              <Icon name={item.icon} className={styles.navIcon} />
-              {item.name}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {orgs && orgs.length > 0 && (
-        <div className={styles.orgs}>
-          <h3 className={styles.orgsTitle}>Organizations</h3>
-          <ul className={styles.orgList}>
-            {orgs.map((org) => {
-              const orgBase = `/orgs/${org.slug}`;
-              const isOrgActive = pathname.startsWith(orgBase);
-              const isProjectsActive = pathname.startsWith(`${orgBase}/projects`);
-              return (
-                <li key={org.id}>
-                  <Link
-                    href={`/orgs/${org.slug}`}
-                    className={[styles.orgLink, isOrgActive && !isProjectsActive ? styles.orgActive : ""].join(" ")}
-                  >
-                    <span className={styles.orgInitial}>{org.name.charAt(0)}</span>
-                    <span className={styles.orgName}>{org.name}</span>
-                  </Link>
-                  {isOrgActive && (
-                    <Link
-                      href={`/orgs/${org.slug}/projects`}
-                      className={[styles.subLink, isProjectsActive ? styles.subLinkActive : ""].join(" ")}
-                    >
-                      <Icon name="folder" className={styles.subIcon} />
-                      Projects
-                    </Link>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+      {/* Backdrop — clicks close the sidebar */}
+      {mobileOpen && (
+        <div
+          className={styles.backdrop}
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
       )}
 
-      {user && (
-        <div className={styles.footer}>
-          <button className={styles.userRow} onClick={logout} title="Click to logout">
-            <div className={styles.userInfo}>
-              <span className={styles.userName}>{user.first_name} {user.last_name}</span>
-              <span className={styles.userEmail}>{user.email}</span>
-            </div>
+      <aside className={styles.sidebar} data-open={mobileOpen}>
+        <div className={styles.logoArea}>
+          <Link href="/" className={styles.logo}>
+            <span className={styles.logoIcon}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+            </span>
+            <span className={styles.brandText}>
+              <span className={styles.logoName}>TaskForge</span>
+              <span className={styles.logoSub}>Terminal Access</span>
+            </span>
+          </Link>
+
+          {/* Mobile close button */}
+          <button
+            className={styles.closeBtn}
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close navigation"
+          >
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+              <path d="M3 3l10 10M13 3L3 13" />
+            </svg>
           </button>
         </div>
-      )}
-    </aside>
+
+        <nav className={styles.nav}>
+          <p className={styles.navLabel}>Core Terminal</p>
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={[styles.navItem, isActive ? styles.navItemActive : ""].join(" ")}
+              >
+                <Icon name={item.icon} className={styles.navIcon} />
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {orgs && orgs.length > 0 && (
+          <div className={styles.orgs}>
+            <h3 className={styles.orgsTitle}>Organizations</h3>
+            <ul className={styles.orgList}>
+              {orgs.map((org) => {
+                const orgBase = `/orgs/${org.slug}`;
+                const isOrgActive = pathname.startsWith(orgBase);
+                const isProjectsActive = pathname.startsWith(`${orgBase}/projects`);
+                return (
+                  <li key={org.id}>
+                    <Link
+                      href={`/orgs/${org.slug}`}
+                      className={[styles.orgLink, isOrgActive && !isProjectsActive ? styles.orgActive : ""].join(" ")}
+                    >
+                      <span className={styles.orgInitial}>{org.name.charAt(0)}</span>
+                      <span className={styles.orgName}>{org.name}</span>
+                    </Link>
+                    {isOrgActive && (
+                      <Link
+                        href={`/orgs/${org.slug}/projects`}
+                        className={[styles.subLink, isProjectsActive ? styles.subLinkActive : ""].join(" ")}
+                      >
+                        <Icon name="folder" className={styles.subIcon} />
+                        Projects
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
+        {user && (
+          <div className={styles.footer}>
+            <button className={styles.userRow} onClick={logout} title="Click to logout">
+              <div className={styles.userInfo}>
+                <span className={styles.userName}>{user.first_name} {user.last_name}</span>
+                <span className={styles.userEmail}>{user.email}</span>
+              </div>
+            </button>
+          </div>
+        )}
+      </aside>
+    </>
   );
 }
