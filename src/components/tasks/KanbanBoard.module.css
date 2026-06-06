@@ -18,12 +18,169 @@
 /* Empty state */
 .emptyBoard {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  gap: 8px;
+  padding: 60px 40px;
   color: var(--text-muted);
-  font-size: 0.9rem;
-  padding: 40px;
+  text-align: center;
+}
+
+.emptyIcon {
+  color: var(--text-disabled);
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.emptyHint {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Add Column tile ─────────────────────────────────────────────────────────── */
+
+.addColTile {
+  flex-shrink: 0;
+  width: 240px;
+  min-height: 80px;
+  background: transparent;
+  border: 1.5px dashed var(--border-subtle);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default),
+    background var(--duration-fast) var(--ease-default);
+  align-self: flex-start;
+}
+
+.addColTile:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  background: var(--brand-primary-light);
+}
+
+.addColForm {
+  flex-shrink: 0;
+  width: 240px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-brand);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: flex-start;
+  animation: slideDown 120ms var(--ease-default) both;
+}
+
+.addColInput {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-default);
+}
+
+.addColInput:focus {
+  border-color: var(--border-brand);
+}
+
+.addColInput::placeholder {
+  color: var(--text-disabled);
+}
+
+.colorRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.colorSwatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform var(--duration-fast) var(--ease-default), border-color var(--duration-fast) var(--ease-default);
+}
+
+.colorSwatch:hover {
+  transform: scale(1.2);
+}
+
+.colorSwatchActive {
+  border-color: var(--text-primary);
+  transform: scale(1.15);
+}
+
+.addColActions {
+  display: flex;
+  gap: 6px;
+}
+
+.addColSave {
+  flex: 1;
+  padding: 6px 10px;
+  background: var(--brand-primary);
+  color: #291800;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-default);
+}
+
+.addColSave:hover:not(:disabled) {
+  background: var(--brand-primary-hover);
+}
+
+.addColSave:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.addColCancel {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default);
+}
+
+.addColCancel:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
 }
 
 /* ── Column ─────────────────────────────────────────────────────────────────── */
