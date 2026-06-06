@@ -1,3 +1,53 @@
+/* ── Mobile controls (hidden on desktop) ─────────────────────────────────── */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 200;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--duration-fast) var(--ease-default);
+}
+
+.hamburger:hover {
+  background: var(--bg-elevated);
+}
+
+.backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+}
+
+.closeBtn {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color var(--duration-fast);
+}
+
+.closeBtn:hover {
+  color: var(--text-primary);
+}
+
+/* ── Sidebar shell ────────────────────────────────────────────────────────── */
 .sidebar {
   width: var(--sidebar-width);
   height: 100vh;
@@ -15,6 +65,9 @@
 .logoArea {
   padding: 20px 16px;
   border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
@@ -300,5 +353,32 @@
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+}
+
+/* ── Mobile responsive ────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .backdrop {
+    display: block;
+  }
+
+  .closeBtn {
+    display: flex;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none;
+    z-index: 200;
+  }
+
+  .sidebar[data-open="true"] {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
+  }
 }
 
