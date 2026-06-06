@@ -103,7 +103,7 @@ export default function BoardPage() {
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" width="14" height="14">
               <path d="M2 4h12M4 8h8M6 12h4" />
             </svg>
-            Filter
+            <span className={styles.filterBtnText}>Filter</span>
           </button>
 
           {/* New Task */}
@@ -116,7 +116,7 @@ export default function BoardPage() {
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.25" width="13" height="13">
               <path d="M8 3v10M3 8h10" />
             </svg>
-            New Task
+            <span className={styles.newTaskBtnText}>New Task</span>
           </button>
         </div>
       </div>
