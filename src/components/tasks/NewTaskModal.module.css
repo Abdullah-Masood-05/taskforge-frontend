@@ -213,3 +213,38 @@
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+/* ── Mobile responsive ────────────────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom: none;
+    animation: slideUpMobile 200ms var(--ease-default) both;
+  }
+
+  @keyframes slideUpMobile {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelBtn,
+  .submitBtn {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+}
