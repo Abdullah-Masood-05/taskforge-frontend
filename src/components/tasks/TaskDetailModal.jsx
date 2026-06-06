@@ -210,9 +210,11 @@ export function TaskDetailModal({ task: initialTask, projectId, orgSlug, members
                   onChange={(e) => handleFieldChange("assignee_id", e.target.value || null)}
                 >
                   <option value="">Unassigned</option>
-                  {members.map((m) => (
-                    <option key={m.id} value={m.id}>{m.user_full_name || m.user_email}</option>
-                  ))}
+                  {members
+                    .filter((m) => m.user_id)
+                    .map((m) => (
+                      <option key={m.user_id} value={m.user_id}>{m.user_full_name || m.user_email}</option>
+                    ))}
                 </select>
               </div>
             </div>
