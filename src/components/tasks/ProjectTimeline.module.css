@@ -1,0 +1,137 @@
+/* ── ProjectTimeline (right-rail Gantt) ─────────────────────────────────────── */
+
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 12px 14px 12px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.panelHint {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ── Grid ───────────────────────────────────────────────────────────────────── */
+
+.gantt {
+  overflow: hidden;
+}
+
+.monthRow,
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.monthRow {
+  margin-bottom: 6px;
+}
+
+.rowLabel {
+  flex: 0 0 96px;
+  min-width: 0;
+  padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.rowLabelText {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowSub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.trackArea {
+  position: relative;
+  flex: 1;
+  display: flex;
+  height: 22px;
+  align-items: center;
+}
+
+.month {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 190px;
+  overflow-y: auto;
+}
+
+.gridCell {
+  height: 100%;
+  border-left: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+.gridCell:first-child {
+  border-left: none;
+}
+
+.todayLine {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.bar {
+  position: absolute;
+  height: 8px;
+  border-radius: var(--radius-full);
+  z-index: 1;
+  box-shadow: 0 0 0 2px var(--bg-surface); /* 2px surface ring separates overlaps */
+  transition: filter var(--duration-fast) var(--ease-default);
+}
+.bar:hover {
+  filter: brightness(1.25);
+}
