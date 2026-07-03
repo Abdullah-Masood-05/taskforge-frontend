@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/Taskforge-New-Logo.svg" alt="TaskForge logo" width="110"/>
+</p>
+
 # TaskForge Frontend
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
