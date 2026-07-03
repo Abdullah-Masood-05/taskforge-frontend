@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+
+# local e2e artifacts (screenshots from scripts/smoke-board.cjs)
+scripts/*.png
