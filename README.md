@@ -13,6 +13,11 @@ A modern, full-featured frontend for TaskForge built with Next.js 16 and React 1
 - **Authentication System**: Secure login/registration with JWT token management
 - **Organization Management**: Create, manage, and invite team members to organizations
 - **Dashboard**: Central hub for viewing and managing tasks and team information
+- **Project Mission Control**: per-project dashboard with a progress header, Gantt-style
+  timeline, weekly velocity chart, priority distribution donut and a live activity feed
+- **Kanban Board**: real-time drag-and-drop board with multi-assignee avatar clusters,
+  colored labels, due dates and per-card progress pills
+- **Project Import/Export**: portable JSON project templates with a preview-before-import flow
 - **Real-time UI Updates**: Powered by React Query for efficient server state management
 - **Custom Design System**: Glassmorphism dark theme with pure CSS and CSS Modules
 - **Form Validation**: Robust form handling with React Hook Form and Zod
@@ -33,7 +38,8 @@ A modern, full-featured frontend for TaskForge built with Next.js 16 and React 1
   - `@hookform/resolvers` - Form validation integration
   - `zod` - Schema validation
 - **Theme**: `next-themes` - Light/dark theme support
-- **Dev Tools**: ESLint 9
+- **Charts**: `recharts` - Dashboard analytics (velocity & distribution)
+- **Dev Tools**: ESLint 9, Playwright smoke script (`scripts/smoke-board.cjs`)
 
 ## Quick Start
 

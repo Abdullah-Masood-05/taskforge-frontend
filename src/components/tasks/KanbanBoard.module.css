@@ -529,3 +529,80 @@
   background: var(--danger-light);
   color: var(--danger);
 }
+
+/* ── Card header right cluster (priority + progress pill) ─────────────────── */
+
+.cardHeaderRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* ── Overlapping assignee avatars ───────────────────────────────────────────── */
+
+.avatarStack {
+  display: flex;
+  align-items: center;
+}
+
+.avatarStack .cardAvatar {
+  position: relative;
+}
+
+.avatarStack .cardAvatar + .cardAvatar,
+.avatarStack .cardAvatar + .avatarOverflow {
+  margin-left: -8px;
+}
+
+.avatarOverflow {
+  background: var(--bg-overlay);
+  z-index: 0;
+}
+
+.avatarOverflow span {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* ── Manual progress pill (top-right of in-progress cards) ─────────────────── */
+
+.progressPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.progressPillTrack {
+  width: 26px;
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+}
+
+.progressPillFill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--brand-gradient);
+}
+
+
+/* Companion to the board page's short-screen mode: the board area sizes to
+   content while columns keep their own max-height + internal scrolling. */
+@media (max-height: 900px) {
+  .board {
+    height: auto;
+  }
+}

@@ -13,7 +13,7 @@ export function Avatar({ src, name, size = "md", className }) {
       {src ? (
         <img src={src} alt={name || "Avatar"} className={styles.image} />
       ) : (
-        <span className={styles.initial}>{initial}</span>
+        <span className={styles.initials}>{initial}</span>
       )}
     </div>
   );
