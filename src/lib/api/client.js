@@ -65,12 +65,15 @@ export class ApiError extends Error {
 
 // ── Core fetch wrapper ────────────────────────────────────────────────────────
 async function request(path, options = {}) {
-  const { body, skipAuth = false, _isRetry = false, ...rest } = options;
+  const { body, formBody, skipAuth = false, _isRetry = false, ...rest } = options;
 
-  const headers = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  };
+  // FormData bodies set their own multipart Content-Type (with boundary).
+  const headers = formBody
+    ? { Accept: "application/json" }
+    : {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      };
 
   if (!skipAuth) {
     const { access } = getTokens();
@@ -88,7 +91,7 @@ async function request(path, options = {}) {
   const res = await fetch(url, {
     ...rest,
     headers: { ...headers, ...rest.headers },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: formBody ?? (body !== undefined ? JSON.stringify(body) : undefined),
   });
 
   // ── 401 handling: try to refresh once ────────────────────────────────────
@@ -155,6 +158,7 @@ async function request(path, options = {}) {
 export const apiClient = {
   get: (path, opts) => request(path, { method: "GET", ...opts }),
   post: (path, body, opts) => request(path, { method: "POST", body, ...opts }),
+  postForm: (path, formData, opts) => request(path, { method: "POST", formBody: formData, ...opts }),
   patch: (path, body, opts) => request(path, { method: "PATCH", body, ...opts }),
   put: (path, body, opts) => request(path, { method: "PUT", body, ...opts }),
   del: (path, opts) => request(path, { method: "DELETE", ...opts }),

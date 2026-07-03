@@ -27,6 +27,9 @@ export const taskKeys = {
   subtasks: (orgSlug, taskId) => ["subtasks", orgSlug, taskId],
   comments: (orgSlug, taskId) => ["comments", orgSlug, taskId],
   activity: (orgSlug, taskId) => ["activity", orgSlug, taskId],
+  timeline: (orgSlug, projectId) => ["project-timeline", orgSlug, projectId],
+  analytics: (orgSlug, projectId) => ["project-analytics", orgSlug, projectId],
+  projectActivity: (orgSlug, projectId) => ["project-activity", orgSlug, projectId],
 };
 
 // ── Projects ──────────────────────────────────────────────────────────────────
@@ -83,6 +86,41 @@ export function useArchiveProject(orgSlug) {
       qc.invalidateQueries({ queryKey: taskKeys.projects(orgSlug) });
       qc.invalidateQueries({ queryKey: taskKeys.project(orgSlug, projectId) });
     },
+  });
+}
+
+// ── Project dashboard (right rail) ────────────────────────────────────────────
+
+export function useProjectTimeline(orgSlug, projectId) {
+  return useQuery({
+    queryKey: taskKeys.timeline(orgSlug, projectId),
+    queryFn: () => projectsApi.timeline(orgSlug, projectId),
+    enabled: !!orgSlug && !!projectId,
+  });
+}
+
+export function useProjectAnalytics(orgSlug, projectId) {
+  return useQuery({
+    queryKey: taskKeys.analytics(orgSlug, projectId),
+    queryFn: () => projectsApi.analytics(orgSlug, projectId),
+    enabled: !!orgSlug && !!projectId,
+  });
+}
+
+export function useProjectActivity(orgSlug, projectId, limit = 20) {
+  return useQuery({
+    queryKey: taskKeys.projectActivity(orgSlug, projectId),
+    queryFn: () => projectsApi.activity(orgSlug, projectId, limit),
+    enabled: !!orgSlug && !!projectId,
+    refetchInterval: 30_000,
+  });
+}
+
+export function useImportProject(orgSlug) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (file) => projectsApi.import(orgSlug, file),
+    onSuccess: () => qc.invalidateQueries({ queryKey: taskKeys.projects(orgSlug) }),
   });
 }
 

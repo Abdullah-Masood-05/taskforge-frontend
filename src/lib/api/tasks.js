@@ -45,6 +45,43 @@ export const projectsApi = {
       headers: { "X-Organization-Slug": orgSlug },
     });
   },
+
+  /** GET /projects/{id}/timeline/ — tasks with both start & due dates */
+  timeline(orgSlug, projectId) {
+    return apiClient.get(`/projects/${projectId}/timeline/`, {
+      headers: { "X-Organization-Slug": orgSlug },
+    });
+  },
+
+  /** GET /projects/{id}/analytics/ — weekly velocity + priority distribution */
+  analytics(orgSlug, projectId) {
+    return apiClient.get(`/projects/${projectId}/analytics/`, {
+      headers: { "X-Organization-Slug": orgSlug },
+    });
+  },
+
+  /** GET /projects/{id}/activity/?limit=N — project-wide activity feed */
+  activity(orgSlug, projectId, limit = 20) {
+    return apiClient.get(`/projects/${projectId}/activity/?limit=${limit}`, {
+      headers: { "X-Organization-Slug": orgSlug },
+    });
+  },
+
+  /** GET /projects/{id}/export/ — portable JSON dump of the project */
+  export(orgSlug, projectId) {
+    return apiClient.get(`/projects/${projectId}/export/`, {
+      headers: { "X-Organization-Slug": orgSlug },
+    });
+  },
+
+  /** POST /projects/import/ — multipart upload of an exported JSON file */
+  import(orgSlug, file) {
+    const form = new FormData();
+    form.append("file", file);
+    return apiClient.postForm("/projects/import/", form, {
+      headers: { "X-Organization-Slug": orgSlug },
+    });
+  },
 };
 
 // ── Task Statuses (Kanban columns) ────────────────────────────────────────────
