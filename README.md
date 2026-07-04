@@ -344,7 +344,7 @@ rm -rf .next
 
 ## License
 
-This project is part of the TaskForge SaaS application. See the main repository for license details.
+This project is licensed under the **GNU General Public License v3.0** – see the [LICENSE](LICENSE) file for details.
 
 ## Support
 
