@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const PUBLIC_PATHS = ["/login", "/register"];
+const PUBLIC_PATHS = ["/login", "/register", "/welcome"];
 
 export function proxy(request) {
   const { pathname } = request.nextUrl;
@@ -17,6 +17,13 @@ export function proxy(request) {
 
   // Check the lightweight authentication cookie set by the Zustand store
   const isAuthenticated = request.cookies.has("taskforge_authenticated");
+
+  // Signed-out visitors see the marketing homepage at "/" (URL stays "/");
+  // signed-in users fall through to the dashboard page as before.
+  if (pathname === "/" && !isAuthenticated) {
+    return NextResponse.rewrite(new URL("/welcome", request.url));
+  }
+
   const isPublicPath = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
 
   // If not authenticated and trying to access a protected route
@@ -26,7 +33,7 @@ export function proxy(request) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // If authenticated and trying to access login/register
+  // If authenticated and trying to access login/register/welcome
   if (isAuthenticated && isPublicPath) {
     return NextResponse.redirect(new URL("/", request.url));
   }
