@@ -12,7 +12,7 @@
   <a href="https://github.com/css-modules/css-modules"><img src="https://img.shields.io/badge/CSS%20Modules-styled-1572B6?logo=css3&logoColor=white" alt="CSS Modules"/></a>
 </p>
 
-A modern, full-featured frontend for TaskForge built with Next.js 16 and React 19. This application provides the user-facing web interface for task and organization management, featuring real-time state management, form validation, and a sleek dark-themed UI with glassmorphism design patterns.
+A web frontend for TaskForge built with Next.js 16 and React 19. It provides a dark-themed UI with glassmorphism design patterns, real-time state management via React Query, and form validation with React Hook Form and Zod.
 
 ## Features
 
@@ -25,7 +25,7 @@ A modern, full-featured frontend for TaskForge built with Next.js 16 and React 1
   colored labels, due dates and per-card progress pills
 - **Project Import/Export**: portable JSON project templates with a preview-before-import flow
 - **Real-time UI Updates**: Powered by React Query for efficient server state management
-- **Custom Design System**: Glassmorphism dark theme with pure CSS and CSS Modules
+- **Custom Design System**: Glassmorphism dark theme with CSS Modules
 - **Form Validation**: Robust form handling with React Hook Form and Zod
 - **Responsive Design**: Mobile-friendly interface that works across all devices
 - **API Integration**: Seamless connection to Django backend API
@@ -171,11 +171,11 @@ In production, consider migrating to `httpOnly` cookies with CSRF protection.
 
 ### Styling Approach
 
-We use **pure CSS with CSS Modules** instead of Tailwind CSS for:
-- **Total aesthetic control** over the glassmorphism dark theme
+We use **CSS Modules** instead of Tailwind CSS for:
+- Control over the glassmorphism dark theme
 - **CSS Custom Properties** (`globals.css`) for centralized design tokens
-- **Scoped styling** via `*.module.css` files preventing class conflicts
-- **Smaller bundle size** compared to utility-first frameworks
+- **Scoped styling** via `*.module.css` files to prevent class conflicts
+- Smaller bundle size than utility-first frameworks
 
 ## Development
 
@@ -344,7 +344,7 @@ rm -rf .next
 
 ## License
 
-This project is licensed under the **GNU General Public License v3.0** – see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **GNU General Public License v3.0**. See the [LICENSE](LICENSE) file for details.
 
 ## Support
 
