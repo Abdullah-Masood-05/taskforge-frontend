@@ -10,6 +10,11 @@
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-ES2024-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript"/></a>
   <a href="https://bun.sh"><img src="https://img.shields.io/badge/Bun-latest-000000?logo=bun&logoColor=white" alt="Bun"/></a>
   <a href="https://github.com/css-modules/css-modules"><img src="https://img.shields.io/badge/CSS%20Modules-styled-1572B6?logo=css3&logoColor=white" alt="CSS Modules"/></a>
+  <a href="https://github.com/Abdullah-Masood-05/taskforge-frontend/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Abdullah-Masood-05/taskforge-frontend?style=social&logo=github"></a>
+</p>
+
+<p align="center">
+  ⭐ <b>Enjoying TaskForge Frontend?</b> If it's useful to you, please <a href="https://github.com/Abdullah-Masood-05/taskforge-frontend">star it on GitHub</a>. It's free and it helps other developers find it.
 </p>
 
 A web frontend for TaskForge built with Next.js 16 and React 19. It provides a dark-themed UI with glassmorphism design patterns, real-time state management via React Query, and form validation with React Hook Form and Zod.
